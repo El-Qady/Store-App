@@ -11,9 +11,10 @@ class SearchField extends StatelessWidget {
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 4.0), // Add padding to the TextField(8.0),
+            padding: EdgeInsets.only(
+              right: 14.0,
+              left: 10.0,
+            ), // Add padding to the TextField(8.0),
             child: TextField(
               decoration: InputDecoration(
                 filled: true,
@@ -30,7 +31,6 @@ class SearchField extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 8.0),
         Padding(
           padding: EdgeInsets.only(right: 16.0),
           child: Icon(Icons.shopping_cart, color: Colors.white54, size: 28),
