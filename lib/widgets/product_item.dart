@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
+import 'package:store_app/models/product_model.dart';
 
 class ProductItem extends StatefulWidget {
   const ProductItem({
     super.key,
+    required this.product,
   });
-
+  final ProductModel product;
   @override
   State<ProductItem> createState() => _ProductItemState();
 }
@@ -27,7 +28,12 @@ class _ProductItemState extends State<ProductItem> {
           ),
           width: MediaQuery.sizeOf(context).width * 0.45,
           height: MediaQuery.sizeOf(context).width * 0.45,
-          child: Center(child: Image.asset('assets/images/headfone.png')),
+          child: Center(
+              child: Image.network(
+            widget.product.image,
+            width: MediaQuery.sizeOf(context).width * 0.30,
+            height: MediaQuery.sizeOf(context).width * 0.30,
+          )),
         ),
         Container(
           decoration: const BoxDecoration(
@@ -41,13 +47,14 @@ class _ProductItemState extends State<ProductItem> {
           width: MediaQuery.sizeOf(context).width * 0.45,
           padding: const EdgeInsets.only(left: 10, top: 5),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Product Name",
-                    style: TextStyle(
+                  Text(
+                    widget.product.title.substring(0, 10),
+                    style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                     ),
@@ -55,7 +62,7 @@ class _ProductItemState extends State<ProductItem> {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    "\$2.00",
+                    "\$ ${widget.product.price}",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -65,7 +72,6 @@ class _ProductItemState extends State<ProductItem> {
                   ),
                 ],
               ),
-              const Spacer(),
               IconButton(
                 icon: Icon(
                   _isFavorite ? Icons.favorite : Icons.favorite_border,
