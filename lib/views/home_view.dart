@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/models/product_model.dart';
 import 'package:store_app/services/get_all_categories.dart';
+import 'package:store_app/services/get_all_product_service.dart';
 import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/product_item.dart';
 import 'package:store_app/widgets/search_field.dart';
@@ -14,16 +16,28 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
   List catrogories = [];
-
+  List<ProductModel> products = [];
+   bool isLoadingCategories = true;
+  bool isLoadingProducts = true;
   @override
   void initState() {
     super.initState();
     fetchCategories();
+    fetchProducts();
   }
 
   Future<void> fetchCategories() async {
     catrogories = await GetAllCategories().getAllCategories();
-    setState(() {});
+    setState(() {
+    isLoadingCategories = false;
+    });
+  }
+
+  Future<void> fetchProducts() async {
+    products = await AllProductService().getAllProducts();
+    setState(() {
+    isLoadingProducts = false;
+    });
   }
 
   @override
@@ -76,28 +90,36 @@ class _HomeViewState extends State<HomeView> {
             height: 40,
             padding: const EdgeInsets.only(left: 20),
             alignment: Alignment.centerLeft,
-            child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return CustomCategory(
-                    category: catrogories[index],
-                  );
-                },
-                itemCount: catrogories.length,
-                scrollDirection: Axis.horizontal),
+            child: isLoadingCategories
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemBuilder: (context, index) {
+                      return CustomCategory(
+                        category: catrogories[index],
+                      );
+                    },
+                    itemCount: catrogories.length,
+                    scrollDirection: Axis.horizontal,
+                  ),
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 0.75,
-              ),
-              itemBuilder: (context, index) {
-                return const ProductItem();
-              },
-            ),
+            child: isLoadingProducts
+                ? const Center(child: CircularProgressIndicator())
+                : GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 0.75,
+                    ),
+                    itemBuilder: (context, index) {
+                      return ProductItem(
+                        product: products[index],
+                      );
+                    },
+                    itemCount: products.length,
+                  ),
           ),
         ],
       ),
