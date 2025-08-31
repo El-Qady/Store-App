@@ -58,6 +58,71 @@ class _HomeViewState extends State<HomeView> {
           const SizedBox(height: 70),
           const SearchField(),
           const SizedBox(height: 10),
+          Container(
+            height: 40,
+            padding: const EdgeInsets.only(left: 20),
+            alignment: Alignment.centerLeft,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff383838),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Text(
+                      'electronics',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff383838),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Text(
+                      'jewelery',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff383838),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Text(
+                      'men\'s clothing',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff383838),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Text(
+                      'women\'s clothing',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
