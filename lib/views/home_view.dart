@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/services/get_all_categories.dart';
+import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/product_item.dart';
 import 'package:store_app/widgets/search_field.dart';
 
@@ -11,6 +13,18 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
+  List catrogories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
+  Future<void> fetchCategories() async {
+    catrogories = await GetAllCategories().getAllCategories();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,65 +76,14 @@ class _HomeViewState extends State<HomeView> {
             height: 40,
             padding: const EdgeInsets.only(left: 20),
             alignment: Alignment.centerLeft,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff383838),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'electronics',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff383838),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'jewelery',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff383838),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'men\'s clothing',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff383838),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'women\'s clothing',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return CustomCategory(
+                    category: catrogories[index],
+                  );
+                },
+                itemCount: catrogories.length,
+                scrollDirection: Axis.horizontal),
           ),
           const SizedBox(height: 10),
           Expanded(
