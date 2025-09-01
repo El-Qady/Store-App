@@ -1,0 +1,19 @@
+import 'package:store_app/models/product_model.dart';
+import 'package:store_app/services/Api.dart';
+
+class AddProductService {
+  Future<ProductModel> addProduct({required String id ,required String title,required String description,required String price,required String category,required String image}) async {
+    final response = await Api().postapi(
+      url: 'https://fakestoreapi.com/products',
+      body: {
+        'id': id,
+        'title': title,
+        'price': price,
+        'description': description,
+        'category': category,
+        'image': image,
+      },
+    );
+    return ProductModel.fromJson(response);
+  }
+}
