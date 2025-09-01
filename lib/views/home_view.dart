@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/services/get_all_categories.dart';
 import 'package:store_app/services/get_all_product_service.dart';
+import 'package:store_app/services/get_category_service.dart';
 import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/product_item.dart';
 import 'package:store_app/widgets/search_field.dart';
@@ -17,7 +18,7 @@ class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
   List catrogories = [];
   List<ProductModel> products = [];
-   bool isLoadingCategories = true;
+  bool isLoadingCategories = true;
   bool isLoadingProducts = true;
   @override
   void initState() {
@@ -29,14 +30,14 @@ class _HomeViewState extends State<HomeView> {
   Future<void> fetchCategories() async {
     catrogories = await GetAllCategories().getAllCategories();
     setState(() {
-    isLoadingCategories = false;
+      isLoadingCategories = false;
     });
   }
 
   Future<void> fetchProducts() async {
     products = await AllProductService().getAllProducts();
     setState(() {
-    isLoadingProducts = false;
+      isLoadingProducts = false;
     });
   }
 
@@ -92,22 +93,61 @@ class _HomeViewState extends State<HomeView> {
             alignment: Alignment.centerLeft,
             child: isLoadingCategories
                 ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemBuilder: (context, index) {
-                      return CustomCategory(
-                        category: catrogories[index],
-                      );
-                    },
-                    itemCount: catrogories.length,
-                    scrollDirection: Axis.horizontal,
+                : Row(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return CustomCategory(
+                              onTap: () {
+                                setState(() {
+                                  isLoadingProducts = true;
+                                });
+                                GetCategoryService()
+                                    .getCategoryProducts(catrogories[index])
+                                    .then((value) {
+                                  setState(() {
+                                    products = value;
+                                  });
+                                  isLoadingProducts = false;
+                                });
+                                print(catrogories[index]);
+                              },
+                              category: catrogories[index],
+                            );
+                          },
+                          itemCount: catrogories.length,
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
+                      IconButton(
+                          icon: Icon(
+                            isLoadingProducts
+                                ? Icons.filter_alt_outlined
+                                : Icons.filter_alt_off_outlined,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isLoadingProducts = true;
+                            });
+                            fetchProducts();
+                          })
+                    ],
                   ),
           ),
+          // const Divider(
+          //   thickness: 1,
+          //   color: Colors.grey,
+          // ),
+
           const SizedBox(height: 10),
           Expanded(
             child: isLoadingProducts
                 ? const Center(child: CircularProgressIndicator())
                 : GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
