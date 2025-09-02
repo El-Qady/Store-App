@@ -5,6 +5,7 @@ import 'package:store_app/services/get_all_categories.dart';
 import 'package:store_app/services/get_all_product_service.dart';
 import 'package:store_app/services/get_category_service.dart';
 import 'package:store_app/views/add_product_view.dart';
+import 'package:store_app/views/update_product_view.dart';
 import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/product_item.dart';
 import 'package:store_app/widgets/search_field.dart';
@@ -171,6 +172,9 @@ class _HomeViewState extends State<HomeView> {
                     ),
                     itemBuilder: (context, index) {
                       return ProductItem(
+                        onTap: () {
+                          Navigator.pushNamed(context, UpdateProductView.routeName,arguments: products[index]);
+                        },
                         product: products[index],
                       );
                     },
