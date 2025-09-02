@@ -3,17 +3,26 @@ import 'package:dio/dio.dart';
 class Api {
   final dio = Dio();
   Future<dynamic> getapi({required String url}) async {
-    final response =
-        await dio.get(url);
+    final response = await dio.get(url);
     if (response.statusCode == 200) {
       return response.data;
     } else {
       throw Exception('Failed to load data from API ${response.statusCode}');
     }
   }
-  Future<dynamic> postapi({required String url, required Map<String, dynamic> body}) async {
-    final response = await dio.post(url, data: body);
-    if (response.statusCode == 200 ) {
+
+  Future<dynamic> postapi(
+      {required String url, required Map<String, dynamic> body}) async {
+    final response = await dio.post(
+      url,
+      data: body,
+      options: Options(
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      ),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return response.data;
     } else {
       throw Exception('Failed to post data to API ${response.statusCode}');
