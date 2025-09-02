@@ -11,7 +11,10 @@ class AddProductView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xff1c1c1c),
       appBar: AppBar(
-        title: const Text('Add Product'),
+        backgroundColor: const Color(0xff1c1c1c),
+        centerTitle: true,
+        elevation: 0,
+        title: const Text('Add Product', style: TextStyle(color: Colors.white)),
       ),
       body: Column(
         children: [
