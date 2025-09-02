@@ -53,7 +53,11 @@ class _ProductItemState extends State<ProductItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.product.title.substring(0, 10),
+                    widget.product.title.substring(
+                        0,
+                        widget.product.title.length > 10
+                            ? 10
+                            : widget.product.title.length),
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,

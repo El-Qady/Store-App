@@ -24,7 +24,9 @@ class ProductModel {
       price: json['price'].toString(),
       image: json['image'],
       category: json['category'],
-      rating: Rating.fromJson(json['rating']),
+      rating: json['rating'] != null
+          ? Rating.fromJson(json['rating'])
+          : Rating(rate: '0', count: '0'),
     );
   }
 }
@@ -38,7 +40,7 @@ class Rating {
     required this.count,
   });
 
-  factory Rating.fromJson(Map<String, dynamic> json) {
+  factory Rating.fromJson(json) {
     return Rating(
       rate: json['rate'].toString(),
       count: json['count'].toString(),

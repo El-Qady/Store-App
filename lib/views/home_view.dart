@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/services/add_product.dart';
 import 'package:store_app/services/get_all_categories.dart';
 import 'package:store_app/services/get_all_product_service.dart';
 import 'package:store_app/services/get_category_service.dart';
+import 'package:store_app/views/add_product_view.dart';
 import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/product_item.dart';
 import 'package:store_app/widgets/search_field.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
-
+  static const String routeName = 'home view';
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -45,7 +47,19 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          final result = await Navigator.pushNamed(context, AddProductView.routeName);
+    if (result != null && result is ProductModel) {
+      setState(() {
+        products.add(result); // أضف المنتج الجديد مباشرة
+      });
+    } else {
+      setState(() {
+        isLoadingProducts = true;
+      });
+      await fetchProducts();
+    }
+        },
         backgroundColor: Colors.white,
         child: const Icon(
           Icons.add,
