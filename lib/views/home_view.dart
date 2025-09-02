@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/models/product_model.dart';
-import 'package:store_app/services/add_product.dart';
+import 'package:store_app/services/post_add_product.dart';
 import 'package:store_app/services/get_all_categories.dart';
 import 'package:store_app/services/get_all_product_service.dart';
 import 'package:store_app/services/get_category_service.dart';
@@ -48,17 +48,11 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final result = await Navigator.pushNamed(context, AddProductView.routeName);
-    if (result != null && result is ProductModel) {
-      setState(() {
-        products.add(result); // أضف المنتج الجديد مباشرة
-      });
-    } else {
-      setState(() {
-        isLoadingProducts = true;
-      });
-      await fetchProducts();
-    }
+          await Navigator.pushNamed(context, AddProductView.routeName);
+          setState(() {
+            isLoadingProducts = true;
+          });
+          await fetchProducts();
         },
         backgroundColor: Colors.white,
         child: const Icon(

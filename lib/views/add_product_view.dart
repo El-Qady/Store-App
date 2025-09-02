@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/services/add_product.dart';
+import 'package:store_app/services/post_add_product.dart';
 import 'package:store_app/widgets/custom_input_field.dart';
 
 class AddProductView extends StatelessWidget {
@@ -49,13 +49,13 @@ class AddProductView extends StatelessWidget {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              final product = AddProductService().addProduct(
+              AddProductService().addProduct(
                   title: title!,
                   description: description!,
                   price: price!,
                   category: category!,
                   image: image!);
-              Navigator.pop(context, product);
+              Navigator.pop(context);
             },
             child: const Text('Add Product'),
           ),
