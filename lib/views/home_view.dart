@@ -173,7 +173,9 @@ class _HomeViewState extends State<HomeView> {
                     itemBuilder: (context, index) {
                       return ProductItem(
                         onTap: () {
-                          Navigator.pushNamed(context, UpdateProductView.routeName,arguments: products[index]);
+                          Navigator.pushNamed(
+                              context, UpdateProductView.routeName,
+                              arguments: products[index]);
                         },
                         product: products[index],
                       );
