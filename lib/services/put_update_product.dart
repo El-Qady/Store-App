@@ -9,8 +9,8 @@ class UpdateProductService {
       required String category,
       required String image,
       required String id}) async {
-    final response =
-        Api().putapi(url: 'https://fakestoreapi.com/products', body: {
+    final response = await
+        Api().putapi(url: 'https://fakestoreapi.com/products/$id', body: {
       'title': title,
       'price': price,
       'description': description,
